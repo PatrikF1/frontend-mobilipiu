@@ -4,7 +4,7 @@
   "framework": "vite",
   "installCommand": "npm install",
   "env": {
-    "VITE_API_URL": "https://backend-mobilipiu.onrender.com",
+    "VITE_API_URL": "https://backend-mobilipiu.onrender.com/api",
     "VITE_BACKEND_URL": "https://backend-mobilipiu.onrender.com"
   }
 } 

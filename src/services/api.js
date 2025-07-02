@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-mobilipiu.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-mobilipiu.onrender.com/api'
 
 // Create axios instance
 const api = axios.create({
