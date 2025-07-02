@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-mobilipiu.onrender.com/api'
 
 // Create axios instance
 const api = axios.create({
@@ -26,12 +26,27 @@ api.interceptors.response.use(
     return response
   },
   (error) => {
-    console.error('API Error:', error)
+    console.error('API Error:', error.response?.data || error.message)
+    console.error('API URL:', API_BASE_URL)
     return Promise.reject(error)
   }
 )
 
 export const apiService = {
+  // TEST API CONNECTION
+  async testConnection() {
+    console.log('🔗 Testing API connection to:', API_BASE_URL);
+    try {
+      const response = await api.get('/products');
+      console.log('✅ API connection successful');
+      return response.data;
+    } catch (error) {
+      console.error('❌ API connection failed:', error.response?.status, error.response?.statusText);
+      console.error('📡 Full URL:', `${API_BASE_URL}/products`);
+      throw error;
+    }
+  },
+
   // Products
   async getProducts(params = {}) {
     const response = await api.get('/products', { params })
