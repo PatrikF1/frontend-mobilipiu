@@ -47,7 +47,7 @@
             :disabled="loading"
             class="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ loading ? 'Prijavljujem...' : 'Prijaviť se' }}
+            {{ loading ? 'Prijavljujem...' : 'Prijavite se' }}
           </button>
         </form>
 

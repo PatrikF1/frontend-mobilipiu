@@ -182,34 +182,71 @@
         <div>
           <label class="form-label">Slike proizvoda</label>
           <div class="space-y-3">
-            <div v-for="(image, index) in form.images" :key="index" class="flex gap-3">
-              <input
-                v-model="image.url"
-                type="url"
-                class="form-input flex-1"
-                placeholder="URL slike"
-              />
-              <input
-                v-model="image.alt"
-                type="text"
-                class="form-input flex-1"
-                placeholder="Alt tekst"
-              />
-              <button
-                type="button"
-                @click="removeImage(index)"
-                class="px-3 py-2 text-red-600 hover:text-red-800 transition-colors duration-300"
-              >
-                🗑️
-              </button>
-            </div>
-            <button
-              type="button"
-              @click="addImage"
-              class="text-gold-600 hover:text-gold-800 transition-colors duration-300"
+            <!-- File Upload -->
+            <div 
+              class="border-2 border-dashed border-brown-300 rounded-lg p-6 text-center transition-colors duration-300"
+              :class="{ 'border-gold-500 bg-gold-50': isDragOver }"
+              @dragover.prevent="isDragOver = true"
+              @dragleave.prevent="isDragOver = false"
+              @drop.prevent="handleDrop"
             >
-              ➕ Dodaj sliku
-            </button>
+              <input
+                ref="fileInput"
+                type="file"
+                multiple
+                accept="image/*"
+                @change="handleFileUpload"
+                class="hidden"
+              />
+              <div class="space-y-2">
+                <div class="text-4xl text-brown-400">📷</div>
+                <p class="text-brown-600">Kliknite za odabir slika ili ih prevucite ovdje</p>
+                <p class="text-sm text-brown-500">Podržani formati: JPG, PNG, GIF. Maksimalna veličina: 5MB po slici</p>
+                <button
+                  type="button"
+                  @click="$refs.fileInput.click()"
+                  class="btn-secondary"
+                >
+                  Odaberi slike
+                </button>
+              </div>
+            </div>
+            
+            <!-- Uploaded Images Preview -->
+            <div v-if="form.images.length > 0" class="space-y-3">
+              <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div
+                  v-for="(image, index) in form.images"
+                  :key="index"
+                  class="relative group"
+                >
+                  <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
+                    <img
+                      :src="image.url"
+                      :alt="image.alt || 'Slika proizvoda'"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                    <button
+                      type="button"
+                      @click="removeImage(index)"
+                      class="opacity-0 group-hover:opacity-100 text-white bg-red-500 hover:bg-red-600 rounded-full p-2 transition-all duration-300"
+                      title="Ukloni sliku"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                  <input
+                    v-model="image.alt"
+                    type="text"
+                    class="mt-2 w-full text-xs px-2 py-1 border border-brown-200 rounded"
+                    placeholder="Alt tekst"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -328,7 +365,8 @@ export default {
         show: false,
         type: 'success',
         text: ''
-      }
+      },
+      isDragOver: false
     }
   },
   async mounted() {
@@ -422,8 +460,42 @@ export default {
       this.form.specifications.splice(index, 1);
     },
 
-    addImage() {
-      this.form.images.push({ url: '', alt: '' });
+    handleFileUpload(event) {
+      const files = Array.from(event.target.files);
+      this.processFiles(files);
+      // Reset file input
+      event.target.value = '';
+    },
+
+    handleDrop(event) {
+      this.isDragOver = false;
+      const files = Array.from(event.dataTransfer.files);
+      this.processFiles(files);
+    },
+
+    processFiles(files) {
+      files.forEach(file => {
+        // Provjeri da li je slika
+        if (!file.type.startsWith('image/')) {
+          this.showMessage('Molimo odaberite samo slike (JPG, PNG, GIF, itd.)', 'error');
+          return;
+        }
+
+        // Provjeri veličinu (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          this.showMessage('Slika je prevelika. Maksimalna veličina je 5MB.', 'error');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.form.images.push({
+            url: e.target.result,
+            alt: file.name.replace(/\.[^/.]+$/, '') // Remove file extension for alt text
+          });
+        };
+        reader.readAsDataURL(file);
+      });
     },
 
     removeImage(index) {

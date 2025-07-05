@@ -238,68 +238,73 @@
             Slike proizvoda
           </label>
           <div class="space-y-3">
-            <div
-              v-for="(image, index) in product.images"
-              :key="index"
-              class="flex gap-3 items-start"
+            <!-- File Upload -->
+            <div 
+              class="border-2 border-dashed border-brown-300 rounded-lg p-6 text-center transition-colors duration-300"
+              :class="{ 'border-gold-500 bg-gold-50': isDragOver }"
+              @dragover.prevent="isDragOver = true"
+              @dragleave.prevent="isDragOver = false"
+              @drop.prevent="handleDrop"
             >
-                             <div class="flex-1">
-                 <!-- File Upload -->
-                 <div class="mb-2">
-                   <input
-                     :id="`file-${index}`"
-                     type="file"
-                     accept="image/*"
-                     @change="handleFileSelect($event, index)"
-                     class="hidden"
-                   />
-                   <label
-                     :for="`file-${index}`"
-                     class="cursor-pointer inline-flex items-center px-4 py-2 bg-brown-50 border border-brown-300 rounded-lg text-brown-700 hover:bg-brown-100 transition-colors duration-300"
-                   >
-                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                     </svg>
-                     {{ image.file ? 'Promijeni sliku' : 'Odaberi sliku' }}
-                   </label>
-                   <span v-if="image.file" class="ml-3 text-sm text-brown-600">
-                     {{ image.file.name }}
-                   </span>
-                 </div>
-                 
-                 <!-- Alt Text -->
-                 <input
-                   v-model="image.alt"
-                   type="text"
-                   placeholder="Opis slike (alt tekst)"
-                   class="form-input"
-                 />
-               </div>
-               <div v-if="image.preview" class="w-20 h-20 bg-brown-50 border border-brown-200 rounded-lg overflow-hidden">
-                 <img 
-                   :src="image.preview" 
-                   :alt="image.alt"
-                   class="w-full h-full object-cover"
-                 />
-               </div>
-              <button
-                type="button"
-                @click="removeImage(index)"
-                class="px-3 py-2 text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors duration-300"
-              >
-                ✕
-              </button>
+              <input
+                ref="fileInput"
+                type="file"
+                multiple
+                accept="image/*"
+                @change="handleFileUpload"
+                class="hidden"
+              />
+              <div class="space-y-2">
+                <div class="text-4xl text-brown-400">📷</div>
+                <p class="text-brown-600">Kliknite za odabir slika ili ih prevucite ovdje</p>
+                <p class="text-sm text-brown-500">Podržani formati: JPG, PNG, GIF. Maksimalna veličina: 5MB po slici</p>
+                <button
+                  type="button"
+                  @click="$refs.fileInput.click()"
+                  class="px-4 py-2 text-brown-700 border border-brown-300 rounded-lg hover:border-brown-400 hover:bg-brown-50 transition-all duration-300"
+                >
+                  Odaberi slike
+                </button>
+              </div>
             </div>
             
-            <button
-              type="button"
-              @click="addImage"
-              class="px-4 py-2 text-brown-700 border border-brown-300 rounded-lg hover:border-brown-400 hover:bg-brown-50 transition-all duration-300"
-            >
-              + Dodaj sliku
-            </button>
+            <!-- Uploaded Images Preview -->
+            <div v-if="product.images.some(img => img.file)" class="space-y-3">
+              <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div
+                  v-for="(image, index) in product.images"
+                  :key="index"
+                  v-if="image.file"
+                  class="relative group"
+                >
+                  <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
+                    <img
+                      :src="image.preview"
+                      :alt="image.alt || 'Slika proizvoda'"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                    <button
+                      type="button"
+                      @click="removeImage(index)"
+                      class="opacity-0 group-hover:opacity-100 text-white bg-red-500 hover:bg-red-600 rounded-full p-2 transition-all duration-300"
+                      title="Ukloni sliku"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                  <input
+                    v-model="image.alt"
+                    type="text"
+                    class="mt-2 w-full text-xs px-2 py-1 border border-brown-200 rounded"
+                    placeholder="Alt tekst"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="text-sm text-brown-500 mt-2">Odaberite slike proizvoda sa vašeg računala. Prva slika će biti glavna. Maksimalna veličina po slici: 5MB.</p>
         </div>
 
         <!-- Tags -->
@@ -376,9 +381,7 @@ export default {
         specifications: [
           { key: '', value: '' }
         ],
-        images: [
-          { file: null, preview: '', alt: '' }
-        ]
+        images: []
       },
       tagsInput: '',
       categories: [],
@@ -387,7 +390,8 @@ export default {
       availableSubcategories: [],
       loading: false,
       success: false,
-      error: null
+      error: null,
+      isDragOver: false
     }
   },
   async mounted() {
@@ -440,19 +444,25 @@ export default {
       }
     },
 
-    addImage() {
-      this.product.images.push({ file: null, preview: '', alt: '' });
-    },
-
     removeImage(index) {
-      if (this.product.images.length > 1) {
-        this.product.images.splice(index, 1);
-      }
+      this.product.images.splice(index, 1);
     },
 
-    handleFileSelect(event, index) {
-      const file = event.target.files[0];
-      if (file) {
+    handleFileUpload(event) {
+      const files = Array.from(event.target.files);
+      this.processFiles(files);
+      // Reset file input
+      event.target.value = '';
+    },
+
+    handleDrop(event) {
+      this.isDragOver = false;
+      const files = Array.from(event.dataTransfer.files);
+      this.processFiles(files);
+    },
+
+    processFiles(files) {
+      files.forEach(file => {
         // Provjeri da li je slika
         if (!file.type.startsWith('image/')) {
           alert('Molimo odaberite samo slike (JPG, PNG, GIF, itd.)');
@@ -465,21 +475,22 @@ export default {
           return;
         }
 
-        // Postavi file i stvori preview
-        this.product.images[index].file = file;
+        // Dodaj novu sliku
+        const newImage = { file: null, preview: '', alt: '' };
+        newImage.file = file;
         
         // Stvori preview URL
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.product.images[index].preview = e.target.result;
+          newImage.preview = e.target.result;
         };
         reader.readAsDataURL(file);
 
-        // Automatski postavi alt tekst iz naziva fajla ako je prazan
-        if (!this.product.images[index].alt) {
-          this.product.images[index].alt = file.name.split('.')[0];
-        }
-      }
+        // Automatski postavi alt tekst iz naziva fajla
+        newImage.alt = file.name.split('.')[0];
+        
+        this.product.images.push(newImage);
+      });
     },
 
     async addProduct() {
