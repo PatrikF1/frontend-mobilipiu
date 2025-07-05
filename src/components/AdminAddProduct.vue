@@ -450,8 +450,8 @@ export default {
 
     handleFileUpload(event) {
       const files = Array.from(event.target.files);
+      console.log('Selected files:', files);
       this.processFiles(files);
-      // Reset file input
       event.target.value = '';
     },
 
@@ -463,33 +463,27 @@ export default {
 
     processFiles(files) {
       files.forEach(file => {
+        console.log('Processing file:', file);
         // Provjeri da li je slika
         if (!file.type.startsWith('image/')) {
           alert('Molimo odaberite samo slike (JPG, PNG, GIF, itd.)');
           return;
         }
-
-        // Provjeri veličinu (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
           alert('Slika je prevelika. Maksimalna veličina je 5MB.');
           return;
         }
-
-        // Dodaj novu sliku
-        const newImage = { file: null, preview: '', alt: '' };
-        newImage.file = file;
-        
-        // Stvori preview URL
         const reader = new FileReader();
         reader.onload = (e) => {
-          newImage.preview = e.target.result;
+          console.log('File loaded:', e.target.result);
+          this.product.images.push({
+            file,
+            preview: e.target.result,
+            alt: file.name.split('.')[0]
+          });
+          console.log('Current images:', this.product.images);
         };
         reader.readAsDataURL(file);
-
-        // Automatski postavi alt tekst iz naziva fajla
-        newImage.alt = file.name.split('.')[0];
-        
-        this.product.images.push(newImage);
       });
     },
 
