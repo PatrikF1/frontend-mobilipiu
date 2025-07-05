@@ -269,13 +269,13 @@
             </div>
             
             <!-- Uploaded Images Preview -->
-            <div v-if="product.images.some(img => img.file)" class="space-y-3">
+            <div v-if="product.images.some(img => img && img.file)" class="space-y-3">
               <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
               <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 <div
                   v-for="(image, index) in product.images"
                   :key="index"
-                  v-if="image.file"
+                  v-if="image && image.file"
                   class="relative group"
                 >
                   <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
