@@ -306,15 +306,6 @@ export default {
     },
     
     async goToProduct(productId) {
-      // Track product view
-      try {
-        await apiService.trackProductView(productId, {
-          referrer: window.location.href
-        });
-      } catch (error) {
-        console.warn('Greška pri praćenju pregleda:', error);
-      }
-      
       // Navigate to product detail
       this.$router.push(`/proizvod/${productId}`)
     },

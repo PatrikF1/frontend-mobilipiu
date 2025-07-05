@@ -194,31 +194,8 @@
           <div class="bg-white rounded-2xl p-8 shadow-elegant border border-brown-100">
             <h2 class="font-display text-2xl font-medium text-brown-900 mb-6">Najgledaniji proizvodi</h2>
             
-            <div v-if="topViewedProducts.length === 0" class="text-center py-8">
-              <p class="text-brown-600">Nema podataka o pregledima</p>
-            </div>
-            
-            <div v-else class="space-y-4">
-              <div
-                v-for="(product, index) in topViewedProducts"
-                :key="product.product_id"
-                class="flex items-center p-4 bg-brown-50 rounded-xl"
-              >
-                <div class="w-16 h-16 bg-gold-100 rounded-lg flex items-center justify-center">
-                  <span class="font-display text-xl font-bold text-gold-600">#{{ index + 1 }}</span>
-                </div>
-                <div class="ml-4 flex-1">
-                  <h4 class="font-display font-medium text-brown-900">{{ product.products.name }}</h4>
-                  <p class="text-sm text-brown-600">{{ product.products.brand }}</p>
-                </div>
-                <div class="text-right">
-                  <p class="font-display font-semibold text-brown-900">{{ product.count }} pregleda</p>
-                  <div class="flex items-center text-sm text-brown-600">
-                    <span class="text-lg mr-1">👁️</span>
-                    {{ getViewPercentage(product.count) }}%
-                  </div>
-                </div>
-              </div>
+            <div class="text-center py-8">
+              <p class="text-brown-600">Funkcionalnost praćenja pregleda nije implementirana</p>
             </div>
           </div>
         </div>
@@ -301,16 +278,8 @@ export default {
         // Get recent products (last 5)
         this.recentProducts = products.slice(0, 5);
         
-        // Pokušaj dohvatiti statistike pregleda (može fail)
-        try {
-          const viewsRes = await apiService.getViewsStats();
-          this.stats.totalViews = viewsRes.totalViews || 0;
-          this.topViewedProducts = viewsRes.topProducts || [];
-          console.log('👁️ Statistike pregleda uspješno učitane:', viewsRes);
-        } catch (viewsError) {
-          console.warn('⚠️  Greška pri učitavanju statistika pregleda:', viewsError);
-          this.topViewedProducts = [];
-        }
+        // Views tracking nije implementiran na backendu
+        this.topViewedProducts = [];
         
         console.log('✅ Statistike uspješno učitane:', this.stats);
         
@@ -347,10 +316,7 @@ export default {
       return new Date(dateString).toLocaleDateString('hr-HR');
     },
     
-    getViewPercentage(count) {
-      if (this.stats.totalViews === 0) return 0;
-      return Math.round((count / this.stats.totalViews) * 100);
-    }
+
   }
 }
 </script>

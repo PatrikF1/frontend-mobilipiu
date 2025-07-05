@@ -73,36 +73,36 @@ export const apiService = {
     return response.data.data || response.data;
   },
 
-  // Product views tracking
-  async trackProductView(productId, viewData = {}) {
-    try {
-      const response = await api.post(`/products/${productId}/view`, {
-        session_id: viewData.sessionId || this.getSessionId(),
-        referrer: document.referrer,
-        ...viewData
-      });
-      return response.data;
-    } catch (error) {
-      // Ne prekidaj rad ako tracking ne radi
-      console.warn('Greška pri praćenju pregleda:', error);
-      return null;
-    }
-  },
+  // Product views tracking - REMOVED (backend doesn't have these routes)
+  // async trackProductView(productId, viewData = {}) {
+  //   try {
+  //     const response = await api.post(`/products/${productId}/view`, {
+  //       session_id: viewData.sessionId || this.getSessionId(),
+  //       referrer: document.referrer,
+  //       ...viewData
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     // Ne prekidaj rad ako tracking ne radi
+  //     console.warn('Greška pri praćenju pregleda:', error);
+  //     return null;
+  //   }
+  // },
 
-  async getViewsStats() {
-    const response = await api.get('/products/stats/views');
-    return response.data;
-  },
+  // async getViewsStats() {
+  //   const response = await api.get('/products/stats/views');
+  //   return response.data;
+  // },
 
-  // Helper method for session tracking
-  getSessionId() {
-    let sessionId = localStorage.getItem('session_id');
-    if (!sessionId) {
-      sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('session_id', sessionId);
-    }
-    return sessionId;
-  },
+  // Helper method for session tracking - REMOVED
+  // getSessionId() {
+  //   let sessionId = localStorage.getItem('session_id');
+  //   if (!sessionId) {
+  //     sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  //     localStorage.setItem('session_id', sessionId);
+  //   }
+  //   return sessionId;
+  // },
 
   // Categories
   async getCategories() {
