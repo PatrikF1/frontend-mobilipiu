@@ -354,9 +354,8 @@ export default {
     },
 
     editProduct(product) {
-      // For now, just log - we could implement inline editing or redirect to edit page
-      console.log('Edit product:', product);
-      this.showMessage('Uređivanje proizvoda će biti implementirano uskoro', 'info');
+      // Navigate to edit page
+      this.$router.push(`/admin/edit-product/${product._id || product.id}`);
     },
 
     confirmDelete(product) {

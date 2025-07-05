@@ -16,6 +16,7 @@ import AdminLogin from './components/AdminLogin.vue'
 import AdminDashboard from './components/AdminDashboard.vue'
 import AdminProducts from './components/AdminProducts.vue'
 import AdminAddProduct from './components/AdminAddProduct.vue'
+import AdminEditProduct from './components/AdminEditProduct.vue'
 
 // Router guard za admin stranice
 const requireAuth = (to, from, next) => {
@@ -60,6 +61,13 @@ const routes = [
     name: 'AdminAddProduct', 
     component: AdminAddProduct,
     beforeEnter: requireAuth
+  },
+  { 
+    path: '/admin/edit-product/:id', 
+    name: 'AdminEditProduct', 
+    component: AdminEditProduct,
+    beforeEnter: requireAuth,
+    props: true
   }
 ]
 
