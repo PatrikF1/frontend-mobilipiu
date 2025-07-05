@@ -59,17 +59,17 @@ export const apiService = {
   },
 
   async addProduct(productData) {
-    const response = await api.post('/products', productData);
+    const response = await api.post('/admin/products', productData);
     return response.data.data || response.data;
   },
 
   async updateProduct(id, productData) {
-    const response = await api.put(`/products/${id}`, productData);
+    const response = await api.put(`/admin/products/${id}`, productData);
     return response.data.data || response.data;
   },
 
   async deleteProduct(id) {
-    const response = await api.delete(`/products/${id}`);
+    const response = await api.delete(`/admin/products/${id}`);
     return response.data.data || response.data;
   },
 
