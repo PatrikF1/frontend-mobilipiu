@@ -500,7 +500,7 @@ export default {
 
       try {
         // Validacija - provjeri da li je minimalno jedna slika odabrana
-        const hasImages = this.product.images.some(img => img.file);
+        const hasImages = this.product.images.some(img => img && img.file);
         if (!hasImages) {
           this.error = 'Molimo dodajte najmanje jednu sliku proizvoda.';
           return;
@@ -523,7 +523,7 @@ export default {
         // Prepare images array - convert to base64 or URLs
         const images = [];
         for (const image of this.product.images) {
-          if (image.file) {
+          if (image && image.file) {
             // Za sada koristimo preview (base64) kao URL
             // U produkciji biste uploadovali na server ili cloud storage
             images.push({
@@ -573,9 +573,7 @@ export default {
         specifications: [
           { key: '', value: '' }
         ],
-        images: [
-          { file: null, preview: '', alt: '' }
-        ]
+        images: []
       };
       this.tagsInput = '';
       this.availableSubcategories = [];
