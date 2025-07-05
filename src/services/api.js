@@ -2,6 +2,14 @@ import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-mobilipiu.onrender.com/api'
 
+// Debug API configuration (only in development)
+if (import.meta.env.DEV) {
+  console.log('🚀 API Configuration:');
+  console.log('📍 Environment:', import.meta.env.MODE);
+  console.log('🔗 API Base URL:', API_BASE_URL);
+  console.log('🌐 VITE_API_URL from env:', import.meta.env.VITE_API_URL);
+}
+
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -49,8 +57,21 @@ export const apiService = {
 
   // Products
   async getProducts(params = {}) {
-    const response = await api.get('/products', { params })
-    return response.data.data || response.data
+    if (import.meta.env.DEV) {
+      console.log('🔍 Fetching products from:', `${API_BASE_URL}/products`);
+    }
+    try {
+      const response = await api.get('/products', { params })
+      if (import.meta.env.DEV) {
+        console.log('✅ Products fetched successfully:', response.data);
+      }
+      return response.data.data || response.data
+    } catch (error) {
+      console.error('❌ Error fetching products:', error.response?.status, error.response?.statusText);
+      console.error('📡 Full URL:', `${API_BASE_URL}/products`);
+      console.error('🔍 Error details:', error.response?.data);
+      throw error;
+    }
   },
 
   async getProduct(id) {
