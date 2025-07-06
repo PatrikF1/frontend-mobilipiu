@@ -145,10 +145,6 @@
               <h3 class="font-display text-3xl font-light mb-6 text-white">
                 Mobili <span class="text-gold-400">più</span>
               </h3>
-              <p class="text-brown-200 mb-6 leading-relaxed">
-                Ekskluzivna destinacija za premium kućanske aparate u Umagu. 
-                Nudimo personalizirani pristup i stručno savjetovanje za vaš dom.
-              </p>
             </div>
             
             <!-- Contact Info -->

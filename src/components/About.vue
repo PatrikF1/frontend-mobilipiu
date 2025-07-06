@@ -54,7 +54,7 @@
           
           <div>
             <div class="bg-brown-100 rounded-2xl p-12 text-center border border-brown-200">
-              <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
+              <div class="w-40 h-40 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
                 <img :src="sandraImg" alt="Sandra Fabijanić" class="object-cover w-full h-full" />
               </div>
               <h3 class="font-display text-2xl font-medium text-brown-900 mb-4">Sandra Fabijanić</h3>
