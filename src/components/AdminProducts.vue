@@ -104,6 +104,9 @@
                 Proizvod
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-brown-500 uppercase tracking-wider">
+                SKU
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-brown-500 uppercase tracking-wider">
                 Brend
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-brown-500 uppercase tracking-wider">
@@ -141,6 +144,11 @@
                       {{ truncateDescription(product.description) }}
                     </div>
                   </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-mono text-brown-700 bg-brown-50 px-2 py-1 rounded">
+                  {{ product.sku || 'N/A' }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -337,7 +345,8 @@ export default {
         };
         
         if (this.filters.search) params.search = this.filters.search;
-        if (this.filters.sku) params.sku = this.filters.sku;
+        // Ne šaljemo SKU na backend jer ne radi ispravno
+        // if (this.filters.sku) params.sku = this.filters.sku;
         if (this.filters.category) params.category = this.filters.category;
         if (this.filters.brand) params.brand = this.filters.brand;
         if (this.filters.subcategory) params.subcategory = this.filters.subcategory;
@@ -346,7 +355,18 @@ export default {
         console.log('🔍 Sending params to API:', params);
         
         const response = await apiService.getProducts(params);
-        this.products = response.products || [];
+        let allProducts = response.products || [];
+        
+        // Frontend filtracija za SKU
+        if (this.filters.sku) {
+          allProducts = allProducts.filter(product => 
+            product.sku && product.sku.toLowerCase().includes(this.filters.sku.toLowerCase())
+          );
+          console.log('🔍 Frontend SKU filter applied:', this.filters.sku);
+          console.log('🔍 Filtered products count:', allProducts.length);
+        }
+        
+        this.products = allProducts;
         this.pagination = response.pagination;
         
         // Debug log
