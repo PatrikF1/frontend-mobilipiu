@@ -181,8 +181,10 @@ export default {
       if (logoPath.startsWith('http')) {
         return logoPath
       }
+      // Zamijeni .png s .svg ekstenzijom
+      const svgPath = logoPath.replace(/\.png$/, '.svg')
       // Inače dodaj BASE_URL
-      return (import.meta.env.BASE_URL || '/') + logoPath.replace(/^\//, '')
+      return (import.meta.env.BASE_URL || '/') + svgPath.replace(/^\//, '')
     },
     handleLogoError(event) {
       // Ako se logo ne može učitati, prikaži prvo slovo brenda
