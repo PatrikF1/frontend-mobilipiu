@@ -54,7 +54,7 @@
           
           <div>
             <div class="bg-brown-100 rounded-2xl p-12 text-center border border-brown-200">
-              <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
+              <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
                 <img :src="sandraImg" alt="Sandra Fabijanić" class="object-cover w-full h-full" />
               </div>
               <h3 class="font-display text-2xl font-medium text-brown-900 mb-4">Sandra Fabijanić</h3>
@@ -103,16 +103,6 @@
                   <p class="text-brown-600">Ponedjeljak - Četvrtak: 09:00 - 17:00</p>
                   <p class="text-brown-600">Petak: 09:00 - 15:00</p>
                   <p class="text-brown-600">Subota i Nedjelja: Zatvoreno</p>
-                </div>
-              </div>
-
-              <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
-                  <span class="text-gold-700">🚗</span>
-                </div>
-                <div>
-                  <p class="font-display font-medium text-brown-900">Parking</p>
-                  <p class="text-brown-600">Besplatno parkiranje ispred objekta</p>
                 </div>
               </div>
             </div>
@@ -181,32 +171,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="py-20 bg-brown-800 text-white">
-      <div class="container-max text-center">
-        <h2 class="font-display text-4xl font-light mb-6">
-          Spremni za <span class="text-gold-400">transformaciju</span>?
-        </h2>
-        <p class="text-xl text-brown-100 mb-10 max-w-2xl mx-auto">
-          Dopustite nam da vam pomognemo stvoriti prostor vaših snova
-        </p>
-        <div class="flex flex-col sm:flex-row gap-6 justify-center">
-          <router-link 
-            to="/proizvodi"
-            class="inline-flex items-center px-8 py-4 font-display font-medium text-brown-800 bg-gold-400 rounded-xl hover:bg-gold-500 transition-all duration-300 transform hover:-translate-y-1"
-          >
-            Pogledajte proizvode
-          </router-link>
-          <router-link 
-            to="/kontakt"
-            class="inline-flex items-center px-8 py-4 font-display font-medium text-gold-400 border-2 border-gold-400 rounded-xl hover:bg-gold-400 hover:text-brown-800 transition-all duration-300"
-          >
-            Zakažite konzultacije
-          </router-link>
         </div>
       </div>
     </section>
