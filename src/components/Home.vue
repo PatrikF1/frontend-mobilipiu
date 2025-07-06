@@ -12,13 +12,13 @@
       <div class="relative z-10 container-max text-center px-8">
         <div class="animate-fade-in-up">
           <!-- Glavni naslov -->
-          <h1 class="font-display text-6xl lg:text-8xl font-light mb-8 text-brown-900 leading-tight">
+          <h1 class="font-display text-6xl lg:text-8xl font-light mb-8 text-brown-900 leading-tight fade-in">
             Mobili 
             <span class="text-gold-600 font-normal">più</span>
           </h1>
           
           <!-- Suptilan podnaslov -->
-          <p class="font-display text-xl lg:text-2xl text-brown-700 mb-16 max-w-3xl mx-auto font-light leading-relaxed">
+          <p class="font-display text-xl lg:text-2xl text-brown-700 mb-16 max-w-3xl mx-auto font-light leading-relaxed slide-up">
             Prodaja i kompletno opremanje vašeg doma
           </p>
 
@@ -26,14 +26,14 @@
           <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <router-link 
               to="/proizvodi" 
-              class="inline-flex items-center px-12 py-4 text-lg font-display font-medium text-white bg-brown-800 rounded-full shadow-warm hover:bg-brown-900 transition-all duration-300 transform hover:-translate-y-1"
+              class="inline-flex items-center px-12 py-4 text-lg font-display font-medium text-white bg-brown-800 rounded-full shadow-warm hover:bg-brown-900 transition-all duration-300 hover-lift"
             >
               Pogledaj kolekciju
             </router-link>
             
             <router-link 
               to="/kontakt" 
-              class="inline-flex items-center px-12 py-4 text-lg font-display font-medium text-brown-800 border-2 border-brown-300 rounded-full hover:border-brown-400 hover:bg-brown-50 transition-all duration-300"
+              class="inline-flex items-center px-12 py-4 text-lg font-display font-medium text-brown-800 border-2 border-brown-300 rounded-full hover:border-brown-400 hover:bg-brown-50 transition-all duration-300 hover-lift"
             >
               Kontaktiraj nas
             </router-link>
@@ -58,9 +58,9 @@
           <div 
             v-for="category in categories" 
             :key="category.name"
-            class="group text-center p-8 rounded-2xl bg-brown-50 hover:bg-brown-100 transition-all duration-300 border border-brown-100 hover:border-brown-200"
+            class="group text-center p-8 rounded-2xl bg-brown-50 hover:bg-brown-100 transition-all duration-300 border border-brown-100 hover:border-brown-200 hover-lift"
           >
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-sm mb-6 group-hover:shadow-md transition-shadow duration-300">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-sm mb-6 group-hover:shadow-md transition-shadow duration-300 float">
               <span class="text-2xl">{{ category.icon }}</span>
             </div>
             
@@ -74,7 +74,7 @@
             
             <router-link 
               :to="`/proizvodi?category=${encodeURIComponent(category.name)}`"
-              class="inline-flex items-center font-display font-medium text-gold-700 hover:text-gold-800 transition-colors duration-300"
+              class="inline-flex items-center font-display font-medium text-gold-700 hover:text-gold-800 transition-colors duration-300 hover-scale"
             >
               Pogledaj
               <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

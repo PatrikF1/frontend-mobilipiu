@@ -15,35 +15,35 @@
           <div class="hidden md:flex items-center space-x-8">
             <router-link 
               to="/" 
-              class="nav-link"
+              class="nav-link hover-scale"
               :class="{ 'text-gold-400 after:w-full': $route.name === 'Home' }"
             >
               Početna
             </router-link>
             <router-link 
               to="/proizvodi" 
-              class="nav-link"
+              class="nav-link hover-scale"
               :class="{ 'text-gold-400 after:w-full': $route.name === 'Products' }"
             >
               Proizvodi
             </router-link>
             <router-link 
               to="/brendovi" 
-              class="nav-link"
+              class="nav-link hover-scale"
               :class="{ 'text-gold-400 after:w-full': $route.name === 'Brands' }"
             >
               Brendovi
             </router-link>
             <router-link 
               to="/o-nama" 
-              class="nav-link"
+              class="nav-link hover-scale"
               :class="{ 'text-gold-400 after:w-full': $route.name === 'About' }"
             >
               O nama
             </router-link>
             <router-link 
               to="/kontakt" 
-              class="nav-link"
+              class="nav-link hover-scale"
               :class="{ 'text-gold-400 after:w-full': $route.name === 'Contact' }"
             >
               Kontakt
@@ -52,7 +52,7 @@
             <!-- Admin Login -->
             <router-link 
               to="/admin" 
-              class="admin-link"
+              class="admin-link hover-glow"
               title="Admin pristup"
             >
               <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

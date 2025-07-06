@@ -100,7 +100,7 @@
           <div
             v-for="product in products"
             :key="product._id"
-            class="bg-white rounded-2xl shadow-sm hover:shadow-elegant transition-all duration-300 border border-brown-100 hover:border-brown-200 cursor-pointer transform hover:-translate-y-2"
+            class="bg-white rounded-2xl shadow-sm hover:shadow-elegant transition-all duration-300 border border-brown-100 hover:border-brown-200 cursor-pointer hover-lift"
             @click="goToProduct(product._id)"
           >
             <div class="aspect-w-1 aspect-h-1 bg-brown-50 rounded-t-2xl overflow-hidden">
@@ -108,7 +108,7 @@
                 v-if="product.images && product.images[0]"
                 :src="product.images[0].url"
                 :alt="product.images[0].alt || product.name"
-                class="w-full h-56 object-contain bg-white"
+                class="w-full h-56 object-contain bg-white hover-scale"
               />
               <div v-else class="w-full h-56 bg-brown-100 flex items-center justify-center">
                 <span class="text-4xl text-brown-400">📦</span>

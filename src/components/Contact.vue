@@ -93,7 +93,7 @@
               <button
                 type="submit"
                 :disabled="isSubmitting"
-                class="w-full px-8 py-4 font-display font-medium text-white bg-brown-800 rounded-xl hover:bg-brown-900 transition-all duration-300 transform hover:-translate-y-1 shadow-warm disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full px-8 py-4 font-display font-medium text-white bg-brown-800 rounded-xl hover:bg-brown-900 transition-all duration-300 shadow-warm disabled:opacity-50 disabled:cursor-not-allowed hover-lift"
               >
                 {{ isSubmitting ? 'Šalje se...' : 'Pošaljite poruku' }}
               </button>
