@@ -269,43 +269,49 @@
             </div>
             
             <!-- Uploaded Images Preview -->
-            <div v-if="product.images.some(img => img && img.file)" class="space-y-3">
+            <div class="space-y-3">
               <!-- Debug info -->
               <div class="text-xs text-gray-500 mb-2">
                 Debug: {{ product.images.length }} slika, 
                 {{ product.images.filter(img => img && img.file).length }} s file property-jem
+                <br>
+                Images array: {{ JSON.stringify(product.images.map(img => ({ hasFile: !!img?.file, hasPreview: !!img?.preview }))) }}
               </div>
-              <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                <div
-                  v-for="(image, index) in product.images"
-                  :key="index"
-                  v-if="image && image.file"
-                  class="relative group"
-                >
-                  <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
-                    <img
-                      :src="image.preview"
-                      :alt="image.alt || 'Slika proizvoda'"
-                      class="w-full h-full object-cover"
+              
+              <div v-if="product.images.some(img => img && img.file)" class="space-y-3">
+                <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  <div
+                    v-for="(image, index) in product.images"
+                    :key="index"
+                    v-if="image && image.file"
+                    class="relative group"
+                  >
+                    <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
+                      <img
+                        :src="image.preview"
+                        :alt="image.alt || 'Slika proizvoda'"
+                        class="w-full h-full object-cover"
+                        @error="console.error('Image failed to load:', image.preview)"
+                      />
+                    </div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                      <button
+                        type="button"
+                        @click="removeImage(index)"
+                        class="opacity-0 group-hover:opacity-100 text-white bg-red-500 hover:bg-red-600 rounded-full p-2 transition-all duration-300"
+                        title="Ukloni sliku"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                    <input
+                      v-model="image.alt"
+                      type="text"
+                      class="mt-2 w-full text-xs px-2 py-1 border border-brown-200 rounded"
+                      placeholder="Alt tekst"
                     />
                   </div>
-                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-                    <button
-                      type="button"
-                      @click="removeImage(index)"
-                      class="opacity-0 group-hover:opacity-100 text-white bg-red-500 hover:bg-red-600 rounded-full p-2 transition-all duration-300"
-                      title="Ukloni sliku"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                  <input
-                    v-model="image.alt"
-                    type="text"
-                    class="mt-2 w-full text-xs px-2 py-1 border border-brown-200 rounded"
-                    placeholder="Alt tekst"
-                  />
                 </div>
               </div>
             </div>
@@ -450,7 +456,7 @@ export default {
     },
 
     removeImage(index) {
-      this.product.images.splice(index, 1);
+      this.product.images = this.product.images.filter((_, i) => i !== index);
     },
 
     handleFileUpload(event) {
@@ -487,7 +493,8 @@ export default {
             alt: file.name.split('.')[0]
           };
           console.log('New image object:', newImage);
-          this.product.images.push(newImage);
+          // Force reactivity by creating a new array reference
+          this.product.images = [...this.product.images, newImage];
           console.log('Current images:', this.product.images);
           console.log('Images length:', this.product.images.length);
           console.log('First image file:', this.product.images[0]?.file);
