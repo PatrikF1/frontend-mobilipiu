@@ -55,7 +55,7 @@
           <div>
             <div class="bg-brown-100 rounded-2xl p-12 text-center border border-brown-200">
               <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
-                <img :src="`${import.meta.env.BASE_URL}Sandra.jpg`" alt="Sandra Fabijanić" class="object-cover w-full h-full" />
+                <img :src="sandraImg" alt="Sandra Fabijanić" class="object-cover w-full h-full" />
               </div>
               <h3 class="font-display text-2xl font-medium text-brown-900 mb-4">Sandra Fabijanić</h3>
               <p class="font-display text-lg text-gold-700 mb-6">Osnivačica i kreativna direktorica</p>
@@ -215,6 +215,11 @@
 
 <script>
 export default {
-  name: 'About'
+  name: 'About',
+  computed: {
+    sandraImg() {
+      return (import.meta.env.BASE_URL || '/') + 'Sandra.jpg';
+    }
+  }
 }
 </script> 
