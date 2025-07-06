@@ -342,9 +342,15 @@ export default {
         if (this.filters.brand) params.brand = this.filters.brand;
         if (this.filters.subcategory) params.subcategory = this.filters.subcategory;
         
+        // Debug log
+        console.log('🔍 Sending params to API:', params);
+        
         const response = await apiService.getProducts(params);
         this.products = response.products || [];
         this.pagination = response.pagination;
+        
+        // Debug log
+        console.log('✅ Received products:', this.products.length);
       } catch (error) {
         console.error('Greška pri učitavanju proizvoda:', error);
         this.showMessage('Greška pri učitavanju proizvoda', 'error');
