@@ -85,41 +85,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Sekcija brendova -->
-    <section class="py-24 bg-brown-50">
-      <div class="container-max">
-        <div class="text-center mb-20">
-          <h2 class="font-display text-4xl lg:text-5xl font-light text-brown-900 mb-6">
-            Naši <span class="text-gold-600">partneri</span>
-          </h2>
-          <p class="text-lg text-brown-600 max-w-2xl mx-auto">
-            Surađujemo s najboljim svjetskim brendovima
-          </p>
-        </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-          <div 
-            v-for="brand in brands" 
-            :key="brand.name"
-            class="text-center p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border border-brown-100"
-          >
-            <div class="w-16 h-16 mx-auto mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-              <img 
-                :src="getBrandLogo(brand.logo)" 
-                :alt="`${brand.name} logo`"
-                class="w-12 h-12 object-contain"
-                @error="handleLogoError"
-              />
-              <span class="text-lg font-display font-bold text-brown-800 hidden">{{ brand.name.charAt(0) }}</span>
-            </div>
-            <h4 class="font-display text-sm font-medium text-brown-800">
-              {{ brand.name }}
-            </h4>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
@@ -144,36 +109,7 @@ export default {
           icon: '🪑',
           description: 'Kuhinjski namještaj i kompletna prostorna rješenja'
         }
-      ],
-      brands: [
-        { name: 'Bosch', logo: '/images/brands/bosch-logo.svg' },
-        { name: 'Miele', logo: '/images/brands/miele-logo.svg' },
-        { name: 'Electrolux', logo: '/images/brands/electrolux-logo.svg' },
-        { name: 'AEG', logo: '/images/brands/aeg-logo.svg' },
-        { name: 'Beko', logo: '/images/brands/beko-logo.svg' },
-        { name: 'Gorenje', logo: '/images/brands/gorenje-logo.svg' },
-        { name: 'Grundig', logo: '/images/brands/grundig-logo.svg' },
-        { name: 'Philips', logo: '/images/brands/philips-logo.svg' },
-        { name: 'Samsung', logo: '/images/brands/samsung-logo.svg' },
-        { name: 'Tesla', logo: '/images/brands/tesla-logo.svg' }
       ]
-    }
-  },
-  methods: {
-    getBrandLogo(logoPath) {
-      if (!logoPath) return ''
-      // Ako je apsolutna putanja, koristi je direktno
-      if (logoPath.startsWith('http')) {
-        return logoPath
-      }
-      // Inače dodaj BASE_URL
-      return (import.meta.env.BASE_URL || '/') + logoPath.replace(/^\//, '')
-    },
-    handleLogoError(event) {
-      // Ako se logo ne može učitati, prikaži prvo slovo brenda
-      const brandName = event.target.alt.replace(' logo', '')
-      event.target.style.display = 'none'
-      event.target.nextElementSibling.style.display = 'flex'
     }
   }
 }
