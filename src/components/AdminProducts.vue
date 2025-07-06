@@ -14,7 +14,7 @@
 
     <!-- Filters -->
     <div class="bg-white rounded-2xl shadow-elegant border border-brown-100 p-6">
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div>
           <input
             v-model="filters.search"
@@ -24,7 +24,15 @@
             @keyup.enter="loadProducts"
           />
         </div>
-        
+        <div>
+          <input
+            v-model="filters.sku"
+            type="text"
+            placeholder="Pretraži po šifri (SKU)"
+            class="form-input"
+            @keyup.enter="loadProducts"
+          />
+        </div>
         <div>
           <select
             v-model="filters.category"
@@ -37,7 +45,6 @@
             </option>
           </select>
         </div>
-        
         <div>
           <select
             v-model="filters.brand"
@@ -50,7 +57,6 @@
             </option>
           </select>
         </div>
-        
         <div>
           <select
             v-model="filters.subcategory"
@@ -63,7 +69,6 @@
             </option>
           </select>
         </div>
-        
         <div>
           <button
             @click="loadProducts"
@@ -283,6 +288,7 @@ export default {
       loading: false,
       filters: {
         search: '',
+        sku: '',
         category: '',
         brand: '',
         subcategory: '',
@@ -331,6 +337,7 @@ export default {
         };
         
         if (this.filters.search) params.search = this.filters.search;
+        if (this.filters.sku) params.sku = this.filters.sku;
         if (this.filters.category) params.category = this.filters.category;
         if (this.filters.brand) params.brand = this.filters.brand;
         if (this.filters.subcategory) params.subcategory = this.filters.subcategory;
