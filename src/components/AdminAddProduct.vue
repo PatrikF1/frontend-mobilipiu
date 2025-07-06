@@ -273,18 +273,21 @@
               <!-- Debug info -->
               <div class="text-xs text-gray-500 mb-2">
                 Debug: {{ product.images.length }} slika, 
-                {{ product.images.filter(img => img && img.file).length }} s file property-jem
+                {{ validImages.length }} s file property-jem
+                <br>
+                Has images: {{ hasImages }}
+                <br>
+                Valid images count: {{ validImages.length }}
                 <br>
                 Images array: {{ JSON.stringify(product.images.map(img => ({ hasFile: !!img?.file, hasPreview: !!img?.preview }))) }}
               </div>
               
-              <div v-if="product.images.some(img => img && img.file)" class="space-y-3">
+              <div v-if="hasImages" class="space-y-3">
                 <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   <div
-                    v-for="(image, index) in product.images"
+                    v-for="(image, index) in validImages"
                     :key="index"
-                    v-if="image && image.file"
                     class="relative group"
                   >
                     <div class="aspect-square bg-brown-100 rounded-lg overflow-hidden">
@@ -405,6 +408,14 @@ export default {
       isDragOver: false
     }
   },
+  computed: {
+    hasImages() {
+      return this.product.images.some(img => img && img.file);
+    },
+    validImages() {
+      return this.product.images.filter(img => img && img.file);
+    }
+  },
   async mounted() {
     await this.loadCategories();
     await this.loadBrands();
@@ -456,7 +467,12 @@ export default {
     },
 
     removeImage(index) {
-      this.product.images = this.product.images.filter((_, i) => i !== index);
+      // Remove from the original array using the index from validImages
+      const validImage = this.validImages[index];
+      const originalIndex = this.product.images.findIndex(img => img === validImage);
+      if (originalIndex !== -1) {
+        this.product.images = this.product.images.filter((_, i) => i !== originalIndex);
+      }
     },
 
     handleFileUpload(event) {
@@ -499,6 +515,12 @@ export default {
           console.log('Images length:', this.product.images.length);
           console.log('First image file:', this.product.images[0]?.file);
           console.log('First image preview:', this.product.images[0]?.preview);
+          
+          // Force Vue to update the DOM
+          this.$nextTick(() => {
+            console.log('DOM updated, checking images again...');
+            console.log('Images after nextTick:', this.product.images);
+          });
         };
         reader.readAsDataURL(file);
       });
