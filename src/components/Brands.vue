@@ -26,8 +26,14 @@
             :key="brand.name"
             class="text-center p-8 bg-brown-50 rounded-2xl border border-brown-100 hover:shadow-elegant transition-all duration-300"
           >
-            <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm">
-              <span class="font-display text-2xl font-bold text-brown-800">{{ brand.name.charAt(0) }}</span>
+            <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
+              <img 
+                :src="getBrandLogo(brand.logo)" 
+                :alt="`${brand.name} logo`"
+                class="w-16 h-16 object-contain"
+                @error="handleLogoError"
+              />
+              <span class="font-display text-2xl font-bold text-brown-800 hidden">{{ brand.name.charAt(0) }}</span>
             </div>
             <h2 class="font-display text-2xl font-medium text-brown-900 mb-4">{{ brand.name }}</h2>
             <p class="text-brown-600 mb-6 leading-relaxed">
@@ -168,6 +174,21 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    getBrandLogo(logoPath) {
+      if (!logoPath) return ''
+      // Ako je apsolutna putanja, koristi je direktno
+      if (logoPath.startsWith('http')) {
+        return logoPath
+      }
+      // Inače dodaj BASE_URL
+      return (import.meta.env.BASE_URL || '/') + logoPath.replace(/^\//, '')
+    },
+    handleLogoError(event) {
+      // Ako se logo ne može učitati, prikaži prvo slovo brenda
+      const brandName = event.target.alt.replace(' logo', '')
+      event.target.style.display = 'none'
+      event.target.nextElementSibling.style.display = 'flex'
     }
   }
 }
