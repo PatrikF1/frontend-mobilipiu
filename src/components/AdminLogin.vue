@@ -20,7 +20,7 @@
               type="text"
               required
               class="form-input"
-              placeholder="admin"
+              placeholder="Korisničko ime"
             />
           </div>
 
@@ -50,13 +50,6 @@
             {{ loading ? 'Prijavljujem...' : 'Prijavite se' }}
           </button>
         </form>
-
-        <div class="mt-8 pt-6 border-t border-brown-100">
-          <p class="text-sm text-brown-500 text-center">
-            Demo pristupni podaci:<br>
-            <strong>admin</strong> / <strong>admin123</strong>
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -81,8 +74,11 @@ export default {
       this.error = null;
 
       try {
-        // Jednostavna autentifikacija (za demo)
-        if (this.credentials.username === 'admin' && this.credentials.password === 'admin123') {
+        // Jednostavna autentifikacija
+        const adminUsername = import.meta.env.VITE_ADMIN_USERNAME;
+        const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+        
+        if (this.credentials.username === adminUsername && this.credentials.password === adminPassword) {
           // Postaviti admin token
           localStorage.setItem('admin_token', 'admin_authenticated');
           localStorage.setItem('admin_user', JSON.stringify({
