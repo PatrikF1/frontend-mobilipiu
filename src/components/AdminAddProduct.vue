@@ -270,6 +270,11 @@
             
             <!-- Uploaded Images Preview -->
             <div v-if="product.images.some(img => img && img.file)" class="space-y-3">
+              <!-- Debug info -->
+              <div class="text-xs text-gray-500 mb-2">
+                Debug: {{ product.images.length }} slika, 
+                {{ product.images.filter(img => img && img.file).length }} s file property-jem
+              </div>
               <h4 class="font-medium text-brown-800">Odabrane slike:</h4>
               <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 <div
@@ -476,12 +481,17 @@ export default {
         const reader = new FileReader();
         reader.onload = (e) => {
           console.log('File loaded:', e.target.result);
-          this.product.images.push({
+          const newImage = {
             file,
             preview: e.target.result,
             alt: file.name.split('.')[0]
-          });
+          };
+          console.log('New image object:', newImage);
+          this.product.images.push(newImage);
           console.log('Current images:', this.product.images);
+          console.log('Images length:', this.product.images.length);
+          console.log('First image file:', this.product.images[0]?.file);
+          console.log('First image preview:', this.product.images[0]?.preview);
         };
         reader.readAsDataURL(file);
       });
