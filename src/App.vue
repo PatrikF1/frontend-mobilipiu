@@ -165,6 +165,10 @@
                   info.mobilipiu@gmail.com
                 </a>
               </div>
+              <div class="flex items-center space-x-3">
+                <span class="text-gold-400">🏢</span>
+                <span class="text-brown-200">OIB: 18407734987</span>
+              </div>
             </div>
           </div>
           
@@ -207,7 +211,6 @@
               <li>Bijela tehnika</li>
               <li>Mali aparati</li>
               <li>Namještaj</li>
-              <li>3D dizajn prostora</li>
             </ul>
           </div>
         </div>

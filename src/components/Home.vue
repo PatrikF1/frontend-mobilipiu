@@ -19,8 +19,7 @@
           
           <!-- Suptilan podnaslov -->
           <p class="font-display text-xl lg:text-2xl text-brown-700 mb-16 max-w-3xl mx-auto font-light leading-relaxed">
-            Prodaja i kompletno opremanje vašeg doma<br>
-            <span class="text-gold-700">Sandra Fabijanić</span> • Umag
+            Prodaja i kompletno opremanje vašeg doma
           </p>
 
           <!-- Minimalistički CTA dugmad -->
@@ -55,7 +54,7 @@
           </p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div 
             v-for="category in categories" 
             :key="category.name"
@@ -105,88 +104,18 @@
             :key="brand.name"
             class="text-center p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border border-brown-100"
           >
-            <div class="w-12 h-12 mx-auto mb-4 bg-brown-100 rounded-lg flex items-center justify-center">
-              <span class="text-lg font-display font-bold text-brown-800">{{ brand.name.charAt(0) }}</span>
+            <div class="w-16 h-16 mx-auto mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+              <img 
+                :src="getBrandLogo(brand.logo)" 
+                :alt="`${brand.name} logo`"
+                class="w-12 h-12 object-contain"
+                @error="handleLogoError"
+              />
+              <span class="text-lg font-display font-bold text-brown-800 hidden">{{ brand.name.charAt(0) }}</span>
             </div>
             <h4 class="font-display text-sm font-medium text-brown-800">
               {{ brand.name }}
             </h4>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- O nama sekcija -->
-    <section class="py-24 bg-white">
-      <div class="container-max">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 class="font-display text-4xl lg:text-5xl font-light mb-8 leading-tight text-brown-900">
-              O <span class="text-gold-600">nama</span>
-            </h2>
-            
-            <p class="text-lg text-brown-600 mb-8 leading-relaxed">
-              <strong class="text-brown-800">Mobili più</strong> je ekskluzivna destinacija za premium kućanske aparate u Umagu. 
-              Pod vodstvom <em class="text-gold-700">Sandre Fabijanić</em>, nudimo personalizirani pristup 
-              i stručno savjetovanje za vaš dom.
-            </p>
-            
-            <p class="text-brown-600 mb-10 leading-relaxed">
-              Naša strast je kreiranje savršenih prostornih rješenja kroz kombinaciju 
-              vrhunske tehnike i besprijekornog dizajna.
-            </p>
-            
-            <router-link 
-              to="/o-nama" 
-              class="inline-flex items-center px-8 py-3 text-lg font-display font-medium bg-brown-800 text-white rounded-full shadow-warm hover:bg-brown-900 transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Saznaj više
-              <svg class="ml-3 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </router-link>
-          </div>
-          
-          <div>
-            <div class="bg-brown-50 rounded-2xl p-10 border border-brown-100">
-              <h3 class="font-display text-2xl font-medium text-brown-900 mb-8 text-center">
-                Kontakt informacije
-              </h3>
-              
-              <div class="space-y-6">
-                <div class="flex items-center space-x-4">
-                  <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
-                    <span class="text-gold-700">📍</span>
-                  </div>
-                  <div>
-                    <p class="font-display font-medium text-brown-900">Lokacija</p>
-                    <p class="text-brown-600">trg.obrt, Umag</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                  <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
-                    <span class="text-gold-700">👤</span>
-                  </div>
-                  <div>
-                    <p class="font-display font-medium text-brown-900">Vlasnica</p>
-                    <p class="text-brown-600">Sandra Fabijanić</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                  <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
-                    <span class="text-gold-700">⏰</span>
-                  </div>
-                  <div>
-                    <p class="font-display font-medium text-brown-900">Radno vrijeme</p>
-                    <p class="text-brown-600">Pon-Čet: 09:00-17:00</p>
-                    <p class="text-brown-600">Pet: 09:00-15:00</p>
-                    <p class="text-brown-600">Sub-Ned: Zatvoreno</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -214,21 +143,37 @@ export default {
           name: 'Namještaj',
           icon: '🪑',
           description: 'Kuhinjski namještaj i kompletna prostorna rješenja'
-        },
-        {
-          name: '3D dizajn',
-          icon: '🎨',
-          description: 'Personalizirani prostorni dizajn i vizualizacija'
         }
       ],
       brands: [
-        { name: 'Bosch' },
-        { name: 'Miele' },
-        { name: 'Electrolux' },
-        { name: 'AEG' },
-        { name: 'Alples' },
-        { name: 'Astra Cucine' }
+        { name: 'Bosch', logo: '/images/brands/bosch-logo.svg' },
+        { name: 'Miele', logo: '/images/brands/miele-logo.svg' },
+        { name: 'Electrolux', logo: '/images/brands/electrolux-logo.svg' },
+        { name: 'AEG', logo: '/images/brands/aeg-logo.svg' },
+        { name: 'Beko', logo: '/images/brands/beko-logo.svg' },
+        { name: 'Gorenje', logo: '/images/brands/gorenje-logo.svg' },
+        { name: 'Grundig', logo: '/images/brands/grundig-logo.svg' },
+        { name: 'Philips', logo: '/images/brands/philips-logo.svg' },
+        { name: 'Samsung', logo: '/images/brands/samsung-logo.svg' },
+        { name: 'Tesla', logo: '/images/brands/tesla-logo.svg' }
       ]
+    }
+  },
+  methods: {
+    getBrandLogo(logoPath) {
+      if (!logoPath) return ''
+      // Ako je apsolutna putanja, koristi je direktno
+      if (logoPath.startsWith('http')) {
+        return logoPath
+      }
+      // Inače dodaj BASE_URL
+      return (import.meta.env.BASE_URL || '/') + logoPath.replace(/^\//, '')
+    },
+    handleLogoError(event) {
+      // Ako se logo ne može učitati, prikaži prvo slovo brenda
+      const brandName = event.target.alt.replace(' logo', '')
+      event.target.style.display = 'none'
+      event.target.nextElementSibling.style.display = 'flex'
     }
   }
 }
