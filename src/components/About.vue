@@ -21,17 +21,12 @@
               Naša <span class="text-gold-600">priča</span>
             </h2>
             
-            <p class="text-lg text-brown-600 mb-6 leading-relaxed">
-              <strong class="text-brown-800">Mobili più</strong> nastao je iz želje za donošenjem 
-              najkvalitetnijih kućanskih aparata i namještaja u srce Istre. 
-              <em class="text-gold-700">Sandra Fabijanić</em>, s dugogodišnjim iskustvom u 
-              industriji dizajna interijera, osnovala je tvrtku s jasnom vizijom.
+            <p class="text-brown-600 mb-6 leading-relaxed">
+              <strong class="text-brown-800">Mobili più</strong> nastao je iz želje za donošenjem najkvalitetnijih kućanskih aparata i namještaja. <em class="text-gold-700">Sandra Fabijanić</em>, s dugogodišnjim iskustvom u industriji dizajna interijera, osnovala je tvrtku s jasnom vizijom.
             </p>
             
             <p class="text-brown-600 mb-8 leading-relaxed">
-              Naša misija je jednostavna: pomoći vam stvoriti prostor koji odražava vaš 
-              stil života kroz pažljivo odabrane proizvode vrhunskih brendova. 
-              Vjerujemo da kvaliteta i funkcionalnost mogu biti savršeno usklađene s elegancijom.
+              Naša misija je jednostavna: pomoći vam stvoriti prostor koji odražava vaš stil života kroz pažljivo odabrane proizvode vrhunskih brendova. Vjerujemo da kvaliteta i funkcionalnost mogu biti savršeno usklađene s elegancijom.
             </p>
 
             <div class="bg-brown-50 rounded-2xl p-8 border border-brown-100">
@@ -59,65 +54,15 @@
           
           <div>
             <div class="bg-brown-100 rounded-2xl p-12 text-center border border-brown-200">
-              <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
-                <span class="text-4xl">👑</span>
+              <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm overflow-hidden">
+                <img src="/Sandra.jpg" alt="Sandra Fabijanić" class="object-cover w-full h-full" />
               </div>
               <h3 class="font-display text-2xl font-medium text-brown-900 mb-4">Sandra Fabijanić</h3>
               <p class="font-display text-lg text-gold-700 mb-6">Osnivačica i kreativna direktorica</p>
               <p class="text-brown-600 leading-relaxed">
-                "Vjerujem da svaki dom zaslužuje biti poseban. Kroz naš asortiman 
-                premium proizvoda i 3D dizajn usluge, pomažem klijentima realizirati 
-                njihove snove o savršenom domu."
+                "Vjerujem da svaki dom zaslužuje biti poseban. Kroz naš asortiman premium proizvoda i 3D dizajn usluge, pomažem klijentima realizirati njihove snove o savršenom domu."
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="py-20 bg-brown-50">
-      <div class="container-max">
-        <div class="text-center mb-16">
-          <h2 class="font-display text-4xl font-light text-brown-900 mb-6">
-            Naše <span class="text-gold-600">usluge</span>
-          </h2>
-          <p class="text-lg text-brown-600 max-w-2xl mx-auto">
-            Kompletan spektar usluga za vaš dom
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="text-center p-8 bg-white rounded-2xl border border-brown-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div class="w-16 h-16 bg-brown-100 rounded-xl flex items-center justify-center mx-auto mb-6">
-              <span class="text-2xl">🏠</span>
-            </div>
-            <h3 class="font-display text-xl font-medium text-brown-900 mb-4">Bijela tehnika</h3>
-            <p class="text-brown-600">Hladnjaci, perilice, štednjaci i ostala velika kućanska tehnika najpoznatijih brendova.</p>
-          </div>
-
-          <div class="text-center p-8 bg-white rounded-2xl border border-brown-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div class="w-16 h-16 bg-brown-100 rounded-xl flex items-center justify-center mx-auto mb-6">
-              <span class="text-2xl">☕</span>
-            </div>
-            <h3 class="font-display text-xl font-medium text-brown-900 mb-4">Mali aparati</h3>
-            <p class="text-brown-600">Aparati za kavu, tosteri, blenderi i ostali kućanski pomagači za svakodnevicu.</p>
-          </div>
-
-          <div class="text-center p-8 bg-white rounded-2xl border border-brown-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div class="w-16 h-16 bg-brown-100 rounded-xl flex items-center justify-center mx-auto mb-6">
-              <span class="text-2xl">🪑</span>
-            </div>
-            <h3 class="font-display text-xl font-medium text-brown-900 mb-4">Namještaj</h3>
-            <p class="text-brown-600">Kuhinjski namještaj i kompletna prostorna rješenja prilagođena vašim potrebama.</p>
-          </div>
-
-          <div class="text-center p-8 bg-white rounded-2xl border border-brown-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div class="w-16 h-16 bg-brown-100 rounded-xl flex items-center justify-center mx-auto mb-6">
-              <span class="text-2xl">🎨</span>
-            </div>
-            <h3 class="font-display text-xl font-medium text-brown-900 mb-4">3D dizajn</h3>
-            <p class="text-brown-600">Personalizirani prostorni dizajn i 3D vizualizacija za potpunu predodžbu.</p>
           </div>
         </div>
       </div>
@@ -212,7 +157,7 @@
                       </svg>
                     </a>
                     <a 
-                      href="https://www.instagram.com/mobilipiu" 
+                      href="https://www.instagram.com/mobilipiutrgovina" 
                       target="_blank"
                       class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg flex items-center justify-center hover:from-purple-600 hover:to-pink-600 transition-colors duration-300"
                       title="Instagram"
