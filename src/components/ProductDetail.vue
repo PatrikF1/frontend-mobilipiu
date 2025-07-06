@@ -9,7 +9,7 @@
       <div class="text-6xl text-brown-400 mb-4">❌</div>
       <h2 class="font-display text-2xl font-semibold text-brown-700 mb-2">Proizvod nije pronađen</h2>
       <p class="text-brown-600 mb-8">{{ error }}</p>
-      <router-link to="/proizvodi" class="btn-primary">
+      <router-link to="/proizvodi" class="btn-primary btn-hover">
         Nazad na proizvode
       </router-link>
     </div>
@@ -20,14 +20,14 @@
         <nav class="flex mb-8" aria-label="Breadcrumb">
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
-              <router-link to="/" class="text-brown-700 hover:text-gold-600">
+              <router-link to="/" class="text-brown-700 hover:text-gold-600 nav-hover">
                 Početna
               </router-link>
             </li>
             <li>
               <div class="flex items-center">
                 <span class="mx-2 text-brown-400">/</span>
-                <router-link to="/proizvodi" class="text-brown-700 hover:text-gold-600">
+                <router-link to="/proizvodi" class="text-brown-700 hover:text-gold-600 nav-hover">
                   Proizvodi
                 </router-link>
               </div>
@@ -43,17 +43,31 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <!-- Product Images -->
-          <div>
-            <div class="bg-white rounded-xl overflow-hidden mb-4 cursor-pointer border border-brown-100" @click="openImageModal(0)">
+          <div class="fade-in">
+            <!-- Main product image -->
+            <div class="aspect-w-1 aspect-h-1 bg-white rounded-lg overflow-hidden mb-4 relative">
               <img
-                v-if="product.images && product.images[0]"
-                :src="product.images[0].url"
-                :alt="product.images[0].alt || product.name"
-                class="w-full h-96 object-contain hover:scale-105 transition-transform duration-300 bg-white"
+                v-if="product.images && product.images[currentImageIndex]"
+                :src="product.images[currentImageIndex].url"
+                :alt="product.images[currentImageIndex].alt || product.name"
+                class="w-full h-96 object-contain cursor-pointer img-hover bg-white transition-opacity duration-300"
+                @click="openImageModal(currentImageIndex)"
               />
-              <div v-else class="w-full h-96 flex items-center justify-center bg-white">
+              <div v-else class="w-full h-96 bg-white flex items-center justify-center">
                 <span class="text-6xl text-brown-400">📦</span>
               </div>
+              
+              <!-- Fullscreen button -->
+              <button
+                v-if="product.images && product.images.length > 0"
+                @click="openImageModal(currentImageIndex)"
+                class="absolute top-2 right-2 bg-brown-800 bg-opacity-75 text-white rounded-full p-2 hover:bg-opacity-100 transition-all duration-300 btn-hover"
+                title="Pogledaj u punoj veličini"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                </svg>
+              </button>
             </div>
             
             <!-- Image thumbnails -->
@@ -61,20 +75,21 @@
               <div
                 v-for="(image, index) in product.images.slice(0, 4)"
                 :key="index"
-                class="aspect-square bg-white rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-gold-400 transition-all duration-200 border border-brown-100"
-                @click="openImageModal(index)"
+                class="aspect-square bg-white rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-gold-400 transition-all duration-200 border-2 card-hover"
+                :class="index === currentImageIndex ? 'border-gold-400 ring-2 ring-gold-400' : 'border-brown-100'"
+                @click="selectImage(index)"
               >
                 <img
                   :src="image.url"
                   :alt="image.alt || product.name"
-                  class="w-full h-full object-contain hover:scale-105 transition-transform duration-300 bg-white"
+                  class="w-full h-full object-contain img-hover bg-white"
                 />
               </div>
             </div>
           </div>
 
           <!-- Product Information -->
-          <div>
+          <div class="slide-in-up">
             <div class="flex items-center gap-4 mb-4">
               <span class="bg-gold-100 text-gold-800 px-3 py-1 rounded-full text-sm font-medium">
                 {{ product.brand }}
@@ -115,7 +130,7 @@
             <!-- Specifications -->
             <div v-if="product.specifications && Object.keys(product.specifications).length > 0" class="mb-8">
               <h3 class="font-display text-xl font-semibold text-brown-800 mb-4">Specifikacije</h3>
-              <div class="bg-brown-50 rounded-lg p-4">
+              <div class="bg-brown-50 rounded-lg p-4 card-hover">
                 <dl class="space-y-2">
                   <div
                     v-for="(value, key) in product.specifications"
@@ -154,14 +169,14 @@
             </div>
 
             <!-- Contact CTA -->
-            <div class="bg-gold-50 rounded-lg p-6">
+            <div class="bg-gold-50 rounded-lg p-6 card-hover">
               <h3 class="font-display text-xl font-semibold text-brown-800 mb-2">
                 Zanima vas ovaj proizvod?
               </h3>
               <p class="text-brown-600 mb-4">
                 Kontaktirajte nas za više informacija, cijenu ili za zakazivanje termina.
               </p>
-              <button @click="contactAboutProduct" class="btn-primary">
+              <button @click="contactAboutProduct" class="btn-primary btn-hover">
                 Kontaktiraj nas
               </button>
             </div>
@@ -170,12 +185,13 @@
 
         <!-- Related Products -->
         <div v-if="relatedProducts.length > 0" class="mt-16">
-          <h2 class="font-display text-3xl font-bold text-brown-800 mb-8">Slični proizvodi</h2>
+          <h2 class="font-display text-3xl font-bold text-brown-800 mb-8 slide-in-up">Slični proizvodi</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <div
-              v-for="relatedProduct in relatedProducts"
+              v-for="(relatedProduct, index) in relatedProducts"
               :key="relatedProduct._id"
-              class="card overflow-hidden cursor-pointer"
+              class="card overflow-hidden cursor-pointer card-hover stagger-item"
+              :style="{ animationDelay: `${index * 0.1}s` }"
               @click="goToProduct(relatedProduct._id)"
             >
               <div class="aspect-w-1 aspect-h-1 bg-white">
@@ -183,7 +199,7 @@
                   v-if="relatedProduct.images && relatedProduct.images[0]"
                   :src="relatedProduct.images[0].url"
                   :alt="relatedProduct.images[0].alt || relatedProduct.name"
-                  class="w-full h-48 object-contain bg-white"
+                  class="w-full h-48 object-contain img-hover bg-white"
                 />
                 <div v-else class="w-full h-48 bg-white flex items-center justify-center">
                   <span class="text-4xl text-brown-400">📦</span>
@@ -208,27 +224,25 @@
     </div>
 
     <!-- Image Modal -->
-    <div 
-      v-if="showImageModal" 
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
-      @click="closeImageModal"
-    >
-      <div class="relative max-w-7xl max-h-screen p-4" @click.stop>
-        <!-- Close button -->
-        <button
-          @click="closeImageModal"
-          class="absolute top-2 right-2 z-10 bg-brown-800 text-white rounded-full p-2 hover:bg-brown-700 transition-colors duration-200"
+    <div v-if="imageModalOpen" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50" @click="closeImageModal">
+      <div class="relative max-w-6xl max-h-full p-4" @click.stop @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+        <!-- Close Button -->
+        <button 
+          @click="closeImageModal" 
+          class="absolute top-4 right-4 z-10 bg-brown-800 text-white rounded-full p-3 hover:bg-brown-700 hover:scale-110 transition-all duration-300 btn-hover"
+          title="Zatvori (ESC ili klik na pozadinu)"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
         
-        <!-- Navigation arrows -->
+        <!-- Navigation Arrows -->
         <button
           v-if="product.images && product.images.length > 1 && currentImageIndex > 0"
           @click="previousImage"
-          class="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-brown-800 text-white rounded-full p-2 hover:bg-brown-700 transition-colors duration-200"
+          class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-brown-800 text-white rounded-full p-3 hover:bg-brown-700 hover:scale-110 transition-all duration-300 btn-hover"
+          title="Prethodna slika (← ili swipe desno)"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -238,27 +252,30 @@
         <button
           v-if="product.images && product.images.length > 1 && currentImageIndex < product.images.length - 1"
           @click="nextImage"
-          class="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-brown-800 text-white rounded-full p-2 hover:bg-brown-700 transition-colors duration-200"
+          class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-brown-800 text-white rounded-full p-3 hover:bg-brown-700 hover:scale-110 transition-all duration-300 btn-hover"
+          title="Sljedeća slika (→ ili swipe lijevo)"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
         </button>
         
-        <!-- Image container with white background -->
+        <!-- Image Container -->
         <div class="bg-white rounded-lg p-6 shadow-2xl">
           <img
             v-if="product.images && product.images[currentImageIndex]"
             :src="product.images[currentImageIndex].url"
             :alt="product.images[currentImageIndex].alt || product.name"
-            class="max-w-full max-h-[80vh] object-contain mx-auto block"
+            class="max-w-full max-h-[80vh] object-contain mx-auto block transition-opacity duration-300"
+            :key="currentImageIndex"
           />
         </div>
         
-        <!-- Image counter -->
+        <!-- Image Counter -->
         <div 
           v-if="product.images && product.images.length > 1"
-          class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-brown-800 text-white px-3 py-1 rounded-full text-sm"
+          class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-brown-800 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
+          :key="currentImageIndex"
         >
           {{ currentImageIndex + 1 }} / {{ product.images.length }}
         </div>
@@ -284,8 +301,10 @@ export default {
       relatedProducts: [],
       loading: false,
       error: null,
-      showImageModal: false,
-      currentImageIndex: 0
+      imageModalOpen: false,
+      currentImageIndex: 0,
+      touchStartX: 0,
+      touchEndX: 0
     }
   },
 
@@ -345,13 +364,13 @@ export default {
     
     openImageModal(imageIndex) {
       this.currentImageIndex = imageIndex
-      this.showImageModal = true
+      this.imageModalOpen = true
       // Sprječava skrolanje pozadine kada je modal otvoren
       document.body.style.overflow = 'hidden'
     },
     
     closeImageModal() {
-      this.showImageModal = false
+      this.imageModalOpen = false
       // Vraća skrolanje pozadine
       document.body.style.overflow = 'auto'
     },
@@ -369,13 +388,41 @@ export default {
     },
     
     handleKeyDown(event) {
-      if (this.showImageModal) {
+      if (this.imageModalOpen) {
         if (event.key === 'Escape') {
           this.closeImageModal()
         } else if (event.key === 'ArrowLeft') {
           this.previousImage()
         } else if (event.key === 'ArrowRight') {
           this.nextImage()
+        }
+      }
+    },
+    
+    handleTouchStart(event) {
+      if (this.imageModalOpen) {
+        this.touchStartX = event.touches[0].clientX
+      }
+    },
+    
+    handleTouchEnd(event) {
+      if (this.imageModalOpen) {
+        this.touchEndX = event.changedTouches[0].clientX
+        this.handleSwipe()
+      }
+    },
+    
+    handleSwipe() {
+      const swipeThreshold = 50
+      const diff = this.touchStartX - this.touchEndX
+      
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swipe left - next image
+          this.nextImage()
+        } else {
+          // Swipe right - previous image
+          this.previousImage()
         }
       }
     },
@@ -394,16 +441,24 @@ export default {
         path: '/kontakt',
         query: query
       })
+    },
+    
+    selectImage(index) {
+      this.currentImageIndex = index
     }
   },
   
   async mounted() {
     await this.loadProduct()
     document.addEventListener('keydown', this.handleKeyDown)
+    document.addEventListener('touchstart', this.handleTouchStart)
+    document.addEventListener('touchend', this.handleTouchEnd)
   },
   
   beforeUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown)
+    document.removeEventListener('touchstart', this.handleTouchStart)
+    document.removeEventListener('touchend', this.handleTouchEnd)
     // Vraća skrolanje pozadine ako je komponenta uništena dok je modal otvoren
     document.body.style.overflow = 'auto'
   },
